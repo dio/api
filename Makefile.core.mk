@@ -442,17 +442,19 @@ meta_v1alpha1_pb_gos := $(meta_v1alpha1_protos:.proto=.pb.go)
 meta_v1alpha1_pb_pythons := $(patsubst $(meta_v1alpha1_path)/%.proto,$(python_output_path)/$(meta_v1alpha1_path)/%_pb2.py,$(meta_v1alpha1_protos))
 meta_v1alpha1_pb_docs := $(meta_v1alpha1_protos:.proto=.pb.html)
 meta_v1alpha1_openapi := $(meta_v1alpha1_protos:.proto=.gen.json)
-
+meta_v1alpha1_k8s_gos := \
+	$(patsubst $(meta_v1alpha1_path)/%.proto,$(meta_v1alpha1_path)/%_json.gen.go,$(shell grep -l "^ *oneof " $(meta_v1alpha1_protos))) \
+	$(patsubst $(meta_v1alpha1_path)/%.proto,$(meta_v1alpha1_path)/%_deepcopy.gen.go,$(shell grep -l "+kubetype-gen" $(meta_v1alpha1_protos)))
 
 $(meta_v1alpha1_pb_gos) $(meta_v1alpha1_pb_docs) $(meta_v1alpha1_pb_pythons): $(meta_v1alpha1_protos)
 	@$(protolock) status
-	@$(protoc) $(gogofast_plugin) $(protoc_gen_docs_plugin_per_file)$(meta_v1alpha1_path) $(protoc_gen_python_plugin) $^
+	@$(protoc) $(gogofast_plugin) $(protoc_gen_k8s_support_plugins) $(protoc_gen_docs_plugin_per_file)$(meta_v1alpha1_path) $(protoc_gen_python_plugin) $^
 	@cp -r /tmp/istio.io/api/meta/* meta
 
-generate-meta: $(meta_v1alpha1_pb_gos) $(meta_v1alpha1_pb_docs) $(meta_v1alpha1_pb_pythons)
+generate-meta: $(meta_v1alpha1_pb_gos) $(meta_v1alpha1_pb_docs) $(meta_v1alpha1_pb_pythons) $(meta_v1alpha1_k8s_gos)
 
 clean-meta:
-	@rm -fr $(meta_v1alpha1_pb_gos) $(meta_v1alpha1_pb_docs)
+	@rm -fr $(meta_v1alpha1_pb_gos) $(meta_v1alpha1_pb_docs) $(meta_v1alpha1_k8s_gos)
 
 #####################
 # envoy/...
