@@ -67,7 +67,7 @@ const (
 	// controller for the entire Kubernetes cluster.
 	MeshConfig_DEFAULT MeshConfig_IngressControllerMode = 2
 	// Istio ingress controller will only act on ingress resources whose
-	// annotations match the value specified in the ingress_class parameter
+	// annotations match the value specified in the `ingress_class` parameter
 	// described earlier. Use this mode if Istio ingress controller will be
 	// a secondary ingress controller (e.g., in addition to a
 	// cloud-provided ingress controller).
@@ -334,14 +334,14 @@ type MeshConfig struct {
 	IngressControllerMode MeshConfig_IngressControllerMode `protobuf:"varint,9,opt,name=ingress_controller_mode,json=ingressControllerMode,proto3,enum=istio.mesh.v1alpha1.MeshConfig_IngressControllerMode" json:"ingressControllerMode,omitempty"`
 	// Defines which gateway deployment to use as the Ingress controller. This field corresponds to
 	// the Gateway.selector field, and will be set as `istio: INGRESS_SELECTOR`.
-	// By default, `ingressgateway` is used, which will select the default IngressGateway as it has the
+	// By default, `ingressgateway` is used, which will select the default `IngressGateway` as it has the
 	// `istio: ingressgateway` labels.
-	// It is recommended that this is the same value as ingress_service.
+	// It is recommended that this is the same value as `ingress_service`.
 	IngressSelector string `protobuf:"bytes,52,opt,name=ingress_selector,json=ingressSelector,proto3" json:"ingressSelector,omitempty"`
 	// Flag to control generation of trace spans and request IDs.
 	// Requires a trace span collector defined in the proxy configuration.
 	EnableTracing bool `protobuf:"varint,12,opt,name=enable_tracing,json=enableTracing,proto3" json:"enableTracing,omitempty"`
-	// File address for the proxy access log (e.g. /dev/stdout).
+	// File address for the proxy access log (e.g. `/dev/stdout`).
 	// Empty value disables access logging.
 	AccessLogFile string `protobuf:"bytes,13,opt,name=access_log_file,json=accessLogFile,proto3" json:"accessLogFile,omitempty"`
 	// Format for the proxy access log
@@ -391,7 +391,7 @@ type MeshConfig struct {
 	// If the upstream authentication policy is in `STRICT` mode, use Istio provisioned certificate
 	// for mutual `TLS` to connect to upstream.
 	// If upstream service is in plain text mode, use plain text.
-	// If the upstream authentication policy is in PERMISSIVE mode, Istio configures clients to use
+	// If the upstream authentication policy is in `PERMISSIVE` mode, Istio configures clients to use
 	// mutual `TLS` when server sides are capable of accepting mutual `TLS` traffic.
 	// If service `DestinationRule` exists and has `ClientTLSSettings` specified, that is always used instead.
 	EnableAutoMtls *types.BoolValue `protobuf:"bytes,43,opt,name=enable_auto_mtls,json=enableAutoMtls,proto3" json:"enableAutoMtls,omitempty"`
@@ -442,13 +442,13 @@ type MeshConfig struct {
 	// `Sidecar`, and `Gateway`.
 	DefaultServiceExportTo []string `protobuf:"bytes,31,rep,name=default_service_export_to,json=defaultServiceExportTo,proto3" json:"defaultServiceExportTo,omitempty"`
 	// The default value for the VirtualService.export_to field. Has the same
-	// syntax as `default_service_export_to`.
+	// syntax as `defaultServiceExportTo`.
 	//
 	// If not set the system will use "*" as the default value which implies that
 	// virtual services are exported to all namespaces
 	DefaultVirtualServiceExportTo []string `protobuf:"bytes,32,rep,name=default_virtual_service_export_to,json=defaultVirtualServiceExportTo,proto3" json:"defaultVirtualServiceExportTo,omitempty"`
 	// The default value for the `DestinationRule.export_to` field. Has the same
-	// syntax as `default_service_export_to`.
+	// syntax as `defaultServiceExportTo`.
 	//
 	// If not set the system will use "*" as the default value which implies that
 	// destination rules are exported to all namespaces
@@ -539,10 +539,10 @@ type MeshConfig struct {
 	// If unset, and `VerifyCertificateAtClient` is false, proxy does not verify SANs.
 	//
 	// For SAN, client-side proxy will exact match host in `DestinationRule` as well as one level
-	// wildcard if the specified host in DestinationRule doesn't contain a wildcard.
+	// wildcard if the specified host in `DestinationRule` doesn't contain a wildcard.
 	// For example, if the host in `DestinationRule` is `x.y.com`, client-side proxy will
 	// match either `x.y.com` or `*.y.com` for the SAN in the presented server certificate.
-	// For wildcard host name in DestinationRule, client-side proxy will do a suffix match. For example,
+	// For wildcard host name in `DestinationRule`, client-side proxy will do a suffix match. For example,
 	// if host is `*.x.y.com`, client-side proxy will verify the presented server certificate SAN matches
 	// ``.x.y.com` suffix.
 	VerifyCertificateAtClient *types.BoolValue `protobuf:"bytes,54,opt,name=verify_certificate_at_client,json=verifyCertificateAtClient,proto3" json:"verifyCertificateAtClient,omitempty"` // Deprecated: Do not use.
@@ -550,7 +550,7 @@ type MeshConfig struct {
 	// If specified, Istiod will authorize and forward the CSRs from the workloads to the specified external CA
 	// using the Istio CA gRPC API.
 	Ca *MeshConfig_CA `protobuf:"bytes,55,opt,name=ca,proto3" json:"ca,omitempty"`
-	// Defines a list of extension providers that extend Istio's functionality. For example, the AuthorizationPolicy
+	// Defines a list of extension providers that extend Istio's functionality. For example, the `AuthorizationPolicy`
 	// can be used with an extension provider to delegate the authorization decision to a custom authorization system.
 	ExtensionProviders []*MeshConfig_ExtensionProvider `protobuf:"bytes,57,rep,name=extension_providers,json=extensionProviders,proto3" json:"extensionProviders,omitempty"`
 	// Specifies extension providers to use by default in Istio configuration resources.
@@ -561,6 +561,7 @@ type MeshConfig struct {
 	// If omitted, Istio will use the default behavior of processing all namespaces in the cluster.
 	// Elements in the list are disjunctive (OR semantics), i.e. a namespace will be included if it matches any selector.
 	// The following example selects any namespace that matches either below:
+	//
 	// 1. The namespace has both of these labels: `env: prod` and `region: us-east1`
 	// 2. The namespace has label `app` equal to `cassandra` or `spark`.
 	//
@@ -580,13 +581,13 @@ type MeshConfig struct {
 	// Refer to the [kubernetes selector docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors)
 	// for additional detail on selector semantics.
 	DiscoverySelectors []*v1.LabelSelector `protobuf:"bytes,59,rep,name=discovery_selectors,json=discoverySelectors,proto3" json:"discoverySelectors,omitempty"`
-	// ProxyPathNormalization configures how URL paths in incoming and outgoing HTTP requests are
+	// `ProxyPathNormalization` configures how URL paths in incoming and outgoing HTTP requests are
 	// normalized by the sidecars and gateways.
 	// The normalized paths will be used in all aspects through the requests' lifetime on the
 	// sidecars and gateways, which includes routing decisions in outbound direction (client proxy),
 	// authorization policy match and enforcement in inbound direction (server proxy), and the URL
 	// path proxied to the upstream service.
-	// If not set, the NormalizationType.DEFAULT configuration will be used.
+	// If not set, the `NormalizationType.DEFAULT` configuration will be used.
 	PathNormalization *MeshConfig_ProxyPathNormalization `protobuf:"bytes,61,opt,name=path_normalization,json=pathNormalization,proto3" json:"pathNormalization,omitempty"`
 	// $hide_from_docs
 	// Configure the default HTTP retry policy.
@@ -1216,7 +1217,7 @@ type MeshConfig_ServiceSettings_Settings struct {
 	//     this service-by-service (e.g. mysvc.myns.svc.cluster.local) or as a group
 	//     (e.g. *.myns.svc.cluster.local).
 	//
-	// By default Istio will consider kubernetes.default.svc (i.e. the API Server) as well as all
+	// By default Istio will consider `kubernetes.default.svc` (i.e. the API Server) as well as all
 	// services in the kube-system namespace to be cluster-local, unless explicitly overridden here.
 	ClusterLocal         bool     `protobuf:"varint,1,opt,name=cluster_local,json=clusterLocal,proto3" json:"clusterLocal,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -1269,12 +1270,12 @@ type MeshConfig_CA struct {
 	// Can be IP address or a fully qualified DNS name with port
 	// Eg: custom-ca.default.svc.cluster.local:8932, 192.168.23.2:9000
 	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-	// Use the tls_settings to specify the tls mode to use.
-	// Regarding tls_settings:
+	// Use the `tlsSettings` to specify the TLS mode to use.
+	// Regarding `tlsSettings`:
 	//
-	// - DISABLE MODE is legitimate for the case Istiod is making the request via an Envoy sidecar.
-	//   DISABLE MODE can also be used for testing
-	// - TLS MUTUAL MODE be on by default. If the CA certificates
+	// - `DISABLE` mode is legitimate for the case Istiod is making the request via an Envoy sidecar.
+	//   `DISABLE` mode can also be used for testing
+	// - `TLS MUTUAL` mode be on by default. If the CA certificates
 	//   (cert bundle to verify the CA server's certificate) is omitted, Istiod will
 	//   use the system root certs to verify the CA server's certificate.
 	TlsSettings *v1alpha3.ClientTLSSettings `protobuf:"bytes,2,opt,name=tls_settings,json=tlsSettings,proto3" json:"tlsSettings,omitempty"`
@@ -1555,20 +1556,20 @@ func (*MeshConfig_ExtensionProvider) XXX_OneofWrappers() []interface{} {
 
 type MeshConfig_ExtensionProvider_EnvoyExternalAuthorizationRequestBody struct {
 	// Sets the maximum size of a message body that the ext-authz filter will hold in memory.
-	// If max_request_bytes is reached, and allow_partial_message is false, Envoy will return a 413 (Payload Too Large).
+	// If `maxRequestBytes` is reached, and allow_partial_message is false, Envoy will return a 413 (Payload Too Large).
 	// Otherwise the request will be sent to the provider with a partial message.
 	// Note that this setting will have precedence over the fail_open field, the 413 will be returned even when the
 	// fail_open is set to true.
 	MaxRequestBytes uint32 `protobuf:"varint,1,opt,name=max_request_bytes,json=maxRequestBytes,proto3" json:"maxRequestBytes,omitempty"`
-	// When this field is true, ext-authz filter will buffer the message until max_request_bytes is reached.
+	// When this field is true, ext-authz filter will buffer the message until `maxRequestBytes` is reached.
 	// The authorization request will be dispatched and no 413 HTTP error will be returned by the filter.
-	// A "x-envoy-auth-partial-body: false|true" metadata header will be added to the authorization request message
+	// An "x-envoy-auth-partial-body: false|true" metadata header will be added to the authorization request message
 	// indicating if the body data is partial.
 	AllowPartialMessage bool `protobuf:"varint,2,opt,name=allow_partial_message,json=allowPartialMessage,proto3" json:"allowPartialMessage,omitempty"`
 	// If true, the body sent to the external authorization service in the gRPC authorization request is set with raw bytes
-	// in the raw_body field (https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L153).
+	// in the [raw_body field](https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L153).
 	// Otherwise, it will be filled with UTF-8 string in the body field (https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L147).
-	// This field only works with the envoy_ext_authz_grpc provider and has no effect for the envoy_ext_authz_http provider.
+	// This field only works with the `envoyExtAuthzGrpc` provider and has no effect for the `envoyExtAuthzHttp` provider.
 	PackAsBytes          bool     `protobuf:"varint,3,opt,name=pack_as_bytes,json=packAsBytes,proto3" json:"packAsBytes,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
@@ -1637,7 +1638,7 @@ type MeshConfig_ExtensionProvider_EnvoyExternalAuthorizationHttpProvider struct 
 	// REQUIRED. Specifies the service that implements the Envoy ext_authz HTTP authorization service.
 	// The format is `[<Namespace>/]<Hostname>`. The specification of `<Namespace>` is required only when it is insufficient
 	// to unambiguously resolve a service in the service registry. The `<Hostname>` is a fully qualified host name of a
-	// service defined by the Kubernetes service or ServiceEntry.
+	// service defined by the Kubernetes service or `ServiceEntry`.
 	//
 	// Example: "my-ext-authz.foo.svc.cluster.local" or "bar/my-ext-authz.example.com".
 	Service string `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
@@ -1658,14 +1659,14 @@ type MeshConfig_ExtensionProvider_EnvoyExternalAuthorizationHttpProvider struct 
 	// Sets the HTTP status that is returned to the client when there is a network error to the authorization service.
 	// The default status is "403" (HTTP Forbidden).
 	StatusOnError string `protobuf:"bytes,5,opt,name=status_on_error,json=statusOnError,proto3" json:"statusOnError,omitempty"`
-	// DEPRECATED. Use include_request_headers_in_check instead.
+	// **DEPRECATED**. Use `includeHeadersInCheck` instead.
 	IncludeHeadersInCheck []string `protobuf:"bytes,6,rep,name=include_headers_in_check,json=includeHeadersInCheck,proto3" json:"includeHeadersInCheck,omitempty"`
 	// List of client request headers that should be included in the authorization request sent to the authorization service.
 	// Note that in addition to the headers specified here following headers are included by default:
 	//
 	// 1. *Host*, *Method*, *Path* and *Content-Length* are automatically sent.
 	// 2. *Content-Length* will be set to 0 and the request will not have a message body. However, the authorization
-	//    request can include the buffered client request body (controlled by include_request_body_in_check setting),
+	//    request can include the buffered client request body (controlled by `includeRequestBodyInCheck` setting),
 	//    consequently the value of Content-Length of the authorization request reflects the size of its payload size.
 	//
 	// Exact, prefix, and suffix matches are supported (similar to the [authorization policy rule](https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)
@@ -1679,7 +1680,7 @@ type MeshConfig_ExtensionProvider_EnvoyExternalAuthorizationHttpProvider struct 
 	IncludeRequestHeadersInCheck []string `protobuf:"bytes,10,rep,name=include_request_headers_in_check,json=includeRequestHeadersInCheck,proto3" json:"includeRequestHeadersInCheck,omitempty"`
 	// Set of additional fixed headers that should be included in the authorization request sent to the authorization service.
 	// Key is the header name and value is the header value.
-	// Note that client request of the same key or headers specified in include_request_headers_in_check will be overridden.
+	// Note that client request of the same key or headers specified in `includeRequestHeadersInCheck` will be overridden.
 	IncludeAdditionalHeadersInCheck map[string]string `protobuf:"bytes,11,rep,name=include_additional_headers_in_check,json=includeAdditionalHeadersInCheck,proto3" json:"includeAdditionalHeadersInCheck,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// If set, the client request body will be included in the authorization request sent to the authorization service.
 	IncludeRequestBodyInCheck *MeshConfig_ExtensionProvider_EnvoyExternalAuthorizationRequestBody `protobuf:"bytes,12,opt,name=include_request_body_in_check,json=includeRequestBodyInCheck,proto3" json:"includeRequestBodyInCheck,omitempty"`
@@ -1688,12 +1689,14 @@ type MeshConfig_ExtensionProvider_EnvoyExternalAuthorizationHttpProvider struct 
 	// If not specified, the original request will not be modified and forwarded to backend as-is.
 	// Note, any existing headers will be overridden.
 	//
-	// Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-	// https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
+	// Exact, prefix, and suffix matches are supported (similar to the [authorization policy rule](https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)
+	// syntax except the presence match):
 	//
 	// - Exact match: "abc" will match on value "abc".
 	// - Prefix match: "abc*" will match on value "abc" and "abcd".
 	// - Suffix match: "*abc" will match on value "abc" and "xabc".
+	//
+	// Note: header rules matching is case-sensitive.
 	HeadersToUpstreamOnAllow []string `protobuf:"bytes,7,rep,name=headers_to_upstream_on_allow,json=headersToUpstreamOnAllow,proto3" json:"headersToUpstreamOnAllow,omitempty"`
 	// List of headers from the authorization service that should be forwarded to downstream when the authorization
 	// check result is not allowed (HTTP code other than 200).
@@ -1843,7 +1846,7 @@ type MeshConfig_ExtensionProvider_EnvoyExternalAuthorizationGrpcProvider struct 
 	// REQUIRED. Specifies the service that implements the Envoy ext_authz gRPC authorization service.
 	// The format is `[<Namespace>/]<Hostname>`. The specification of `<Namespace>` is required only when it is insufficient
 	// to unambiguously resolve a service in the service registry. The `<Hostname>` is a fully qualified host name of a
-	// service defined by the Kubernetes service or ServiceEntry.
+	// service defined by the Kubernetes service or `ServiceEntry`.
 	//
 	// Example: "my-ext-authz.foo.svc.cluster.local" or "bar/my-ext-authz.example.com".
 	Service string `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
@@ -1851,7 +1854,7 @@ type MeshConfig_ExtensionProvider_EnvoyExternalAuthorizationGrpcProvider struct 
 	Port uint32 `protobuf:"varint,2,opt,name=port,proto3" json:"port,omitempty"`
 	// The maximum duration that the proxy will wait for a response from the provider, this is the timeout for a specific request (default timeout: 600s).
 	// When this timeout condition is met, the proxy marks the communication to the authorization service as failure.
-	// In this situation, the response sent back to the client will depend on the configured `fail_open` field.
+	// In this situation, the response sent back to the client will depend on the configured `failOpen` field.
 	Timeout *types.Duration `protobuf:"bytes,5,opt,name=timeout,proto3" json:"timeout,omitempty"`
 	// If true, the HTTP request or TCP connection will be allowed even if the communication with the authorization service has failed,
 	// or if the authorization service has returned a HTTP 5xx error.
@@ -1951,7 +1954,7 @@ type MeshConfig_ExtensionProvider_ZipkinTracingProvider struct {
 	// REQUIRED. Specifies the service that the Zipkin API.
 	// The format is `[<Namespace>/]<Hostname>`. The specification of `<Namespace>` is required only when it is insufficient
 	// to unambiguously resolve a service in the service registry. The `<Hostname>` is a fully qualified host name of a
-	// service defined by the Kubernetes service or ServiceEntry.
+	// service defined by the Kubernetes service or `ServiceEntry`.
 	//
 	// Example: "zipkin.default.svc.cluster.local" or "bar/zipkin.example.com".
 	Service string `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
@@ -2028,7 +2031,7 @@ type MeshConfig_ExtensionProvider_LightstepTracingProvider struct {
 	// REQUIRED. Specifies the service for the Lightstep collector.
 	// The format is `[<Namespace>/]<Hostname>`. The specification of `<Namespace>` is required only when it is insufficient
 	// to unambiguously resolve a service in the service registry. The `<Hostname>` is a fully qualified host name of a
-	// service defined by the Kubernetes service or ServiceEntry.
+	// service defined by the Kubernetes service or `ServiceEntry`.
 	//
 	// Example: "lightstep.default.svc.cluster.local" or "bar/lightstep.example.com".
 	Service string `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
@@ -2114,7 +2117,7 @@ type MeshConfig_ExtensionProvider_DatadogTracingProvider struct {
 	// REQUIRED. Specifies the service for the Datadog agent.
 	// The format is `[<Namespace>/]<Hostname>`. The specification of `<Namespace>` is required only when it is insufficient
 	// to unambiguously resolve a service in the service registry. The `<Hostname>` is a fully qualified host name of a
-	// service defined by the Kubernetes service or ServiceEntry.
+	// service defined by the Kubernetes service or `ServiceEntry`.
 	//
 	// Example: "datadog.default.svc.cluster.local" or "bar/datadog.example.com".
 	Service string `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
@@ -2191,7 +2194,7 @@ type MeshConfig_ExtensionProvider_SkyWalkingTracingProvider struct {
 	// REQUIRED. Specifies the service for the SkyWalking receiver.
 	// The format is `[<Namespace>/]<Hostname>`. The specification of `<Namespace>` is required only when it is insufficient
 	// to unambiguously resolve a service in the service registry. The `<Hostname>` is a fully qualified host name of a
-	// service defined by the Kubernetes service or ServiceEntry.
+	// service defined by the Kubernetes service or `ServiceEntry`.
 	//
 	// Example: "skywalking.default.svc.cluster.local" or "bar/skywalking.example.com".
 	Service string `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
@@ -2364,7 +2367,7 @@ type MeshConfig_ExtensionProvider_OpenCensusAgentTracingProvider struct {
 	// REQUIRED. Specifies the service for the OpenCensusAgent.
 	// The format is `[<Namespace>/]<Hostname>`. The specification of `<Namespace>` is required only when it is insufficient
 	// to unambiguously resolve a service in the service registry. The `<Hostname>` is a fully qualified host name of a
-	// service defined by the Kubernetes service or ServiceEntry.
+	// service defined by the Kubernetes service or `ServiceEntry`.
 	//
 	// Example: "ocagent.default.svc.cluster.local" or "bar/ocagent.example.com".
 	Service string `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
@@ -2670,7 +2673,7 @@ type ConfigSource struct {
 	// protocol (MCP). Can be IP address or a fully qualified DNS name.
 	// Use `fs:///` to specify a file-based backend with absolute path to the directory.
 	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-	// Use the tls_settings to specify the tls mode to use. If the MCP server
+	// Use the `tlsSettings` to specify the tls mode to use. If the MCP server
 	// uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
 	// mode as `ISTIO_MUTUAL`.
 	TlsSettings *v1alpha3.ClientTLSSettings `protobuf:"bytes,2,opt,name=tls_settings,json=tlsSettings,proto3" json:"tlsSettings,omitempty"`
@@ -2746,6 +2749,7 @@ func (m *ConfigSource) GetSubscribedResources() []Resource {
 //     - galley.mydomain.com
 // }
 // ```
+//
 // Example 2: key and cert stored in a directory
 //
 // ```
