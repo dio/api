@@ -653,7 +653,7 @@ sources.</p>
 <td>
 <p>Address of the server implementing the Istio Mesh Configuration
 protocol (MCP). Can be IP address or a fully qualified DNS name.
-Use fs:/// to specify a file-based backend with absolute path to the directory.</p>
+Use <code>fs:///</code> to specify a file-based backend with absolute path to the directory.</p>
 
 </td>
 <td>
@@ -881,12 +881,15 @@ No
 <td><code><a href="https://istio.io/docs/reference/config/networking/destination-rule.html#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>Use the tls<em>settings to specify the tls mode to use.
-Regarding tls</em>settings:
-- DISABLE MODE is legitimate for the case Istiod is making the request via an Envoy sidecar.
-DISABLE MODE can also be used for testing
-- TLS MUTUAL MODE be on by default. If the CA certificates
+Regarding tls</em>settings:</p>
+
+<ul>
+<li>DISABLE MODE is legitimate for the case Istiod is making the request via an Envoy sidecar.
+DISABLE MODE can also be used for testing</li>
+<li>TLS MUTUAL MODE be on by default. If the CA certificates
 (cert bundle to verify the CA server&rsquo;s certificate) is omitted, Istiod will
-use the system root certs to verify the CA server&rsquo;s certificate.</p>
+use the system root certs to verify the CA server&rsquo;s certificate.</li>
+</ul>
 
 </td>
 <td>
@@ -1353,14 +1356,16 @@ request can include the buffered client request body (controlled by include<em>r
 consequently the value of Content-Length of the authorization request reflects the size of its payload size.</li>
 </ol>
 
-<p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):</p>
+<p>Exact, prefix, and suffix matches are supported (similar to the <a href="https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule">authorization policy rule</a>
+syntax except the presence match):</p>
 
 <ul>
 <li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
 <li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
 <li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
 </ul>
+
+<p>Note: header rules matching is case-sensitive.</p>
 
 </td>
 <td>
@@ -1401,10 +1406,13 @@ If not specified, the original request will not be modified and forwarded to bac
 Note, any existing headers will be overridden.</p>
 
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
-- Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):</p>
+
+<ul>
+<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
+<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
+<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
+</ul>
 
 </td>
 <td>
@@ -1418,16 +1426,22 @@ No
 <p>List of headers from the authorization service that should be forwarded to downstream when the authorization
 check result is not allowed (HTTP code other than 200).
 If not specified, all the authorization response headers, except <em>Authority (Host)</em> will be in the response to
-the downstream.
-When a header is included in this list, <em>Path</em>, <em>Status</em>, <em>Content-Length</em>, <em>WWWAuthenticate</em> and <em>Location</em> are
+the downstream.</p>
+
+<p>When a header is included in this list, <em>Path</em>, <em>Status</em>, <em>Content-Length</em>, <em>WWWAuthenticate</em> and <em>Location</em> are
 automatically added.
 Note, the body from the authorization service is always included in the response to downstream.</p>
 
-<p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
-- Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+<p>Exact, prefix, and suffix matches are supported (similar to the <a href="https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule">authorization policy rule</a>
+syntax except the presence match):</p>
+
+<ul>
+<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
+<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
+<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
+</ul>
+
+<p>Note: header rules matching is case-sensitive.</p>
 
 </td>
 <td>

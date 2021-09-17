@@ -400,10 +400,12 @@ type MeshConfig struct {
 	TrustDomain string `protobuf:"bytes,26,opt,name=trust_domain,json=trustDomain,proto3" json:"trustDomain,omitempty"`
 	// The trust domain aliases represent the aliases of `trust_domain`.
 	// For example, if we have
+	//
 	// ```yaml
 	// trustDomain: td1
 	// trustDomainAliases: ["td2", "td3"]
 	// ```
+	//
 	// Any service with the identity `td1/ns/foo/sa/a-service-account`, `td2/ns/foo/sa/a-service-account`,
 	// or `td3/ns/foo/sa/a-service-account` will be treated the same in the Istio mesh.
 	TrustDomainAliases []string `protobuf:"bytes,46,rep,name=trust_domain_aliases,json=trustDomainAliases,proto3" json:"trustDomainAliases,omitempty"`
@@ -416,11 +418,13 @@ type MeshConfig struct {
 	// imported through container registry integrations, e.g. this applies to
 	// Kubernetes Service resources. The value is a list of namespace names and
 	// reserved namespace aliases. The allowed namespace aliases are:
+	//
 	// ```
 	// * - All Namespaces
 	// . - Current Namespace
 	// ~ - No Namespace
 	// ```
+	//
 	// If not set the system will use "*" as the default value which implies that
 	// services are exported to all namespaces.
 	//
@@ -559,6 +563,7 @@ type MeshConfig struct {
 	// The following example selects any namespace that matches either below:
 	// 1. The namespace has both of these labels: `env: prod` and `region: us-east1`
 	// 2. The namespace has label `app` equal to `cassandra` or `spark`.
+	//
 	// ```yaml
 	// discoverySelectors:
 	//   - matchLabels:
@@ -571,6 +576,7 @@ type MeshConfig struct {
 	//         - cassandra
 	//         - spark
 	// ```
+	//
 	// Refer to the [kubernetes selector docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors)
 	// for additional detail on selector semantics.
 	DiscoverySelectors []*v1.LabelSelector `protobuf:"bytes,59,rep,name=discovery_selectors,json=discoverySelectors,proto3" json:"discoverySelectors,omitempty"`
@@ -1139,7 +1145,7 @@ type MeshConfig_ServiceSettings struct {
 	// The services to which the Settings should be applied. Services are selected using the hostname
 	// matching rules used by DestinationRule.
 	//
-	// For example: foo.bar.svc.cluster.local, *.baz.svc.cluster.local
+	// For example: "foo.bar.svc.cluster.local", "*.baz.svc.cluster.local".
 	Hosts                []string `protobuf:"bytes,2,rep,name=hosts,proto3" json:"hosts,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
@@ -1265,11 +1271,12 @@ type MeshConfig_CA struct {
 	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
 	// Use the tls_settings to specify the tls mode to use.
 	// Regarding tls_settings:
+	//
 	// - DISABLE MODE is legitimate for the case Istiod is making the request via an Envoy sidecar.
-	// DISABLE MODE can also be used for testing
+	//   DISABLE MODE can also be used for testing
 	// - TLS MUTUAL MODE be on by default. If the CA certificates
-	// (cert bundle to verify the CA server's certificate) is omitted, Istiod will
-	// use the system root certs to verify the CA server's certificate.
+	//   (cert bundle to verify the CA server's certificate) is omitted, Istiod will
+	//   use the system root certs to verify the CA server's certificate.
 	TlsSettings *v1alpha3.ClientTLSSettings `protobuf:"bytes,2,opt,name=tls_settings,json=tlsSettings,proto3" json:"tlsSettings,omitempty"`
 	// timeout for forward CSR requests from Istiod to External CA
 	// Default: 10s
@@ -1661,12 +1668,14 @@ type MeshConfig_ExtensionProvider_EnvoyExternalAuthorizationHttpProvider struct 
 	//    request can include the buffered client request body (controlled by include_request_body_in_check setting),
 	//    consequently the value of Content-Length of the authorization request reflects the size of its payload size.
 	//
-	// Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-	// https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
+	// Exact, prefix, and suffix matches are supported (similar to the [authorization policy rule](https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)
+	// syntax except the presence match):
 	//
 	// - Exact match: "abc" will match on value "abc".
 	// - Prefix match: "abc*" will match on value "abc" and "abcd".
 	// - Suffix match: "*abc" will match on value "abc" and "xabc".
+	//
+	// Note: header rules matching is case-sensitive.
 	IncludeRequestHeadersInCheck []string `protobuf:"bytes,10,rep,name=include_request_headers_in_check,json=includeRequestHeadersInCheck,proto3" json:"includeRequestHeadersInCheck,omitempty"`
 	// Set of additional fixed headers that should be included in the authorization request sent to the authorization service.
 	// Key is the header name and value is the header value.
@@ -1681,6 +1690,7 @@ type MeshConfig_ExtensionProvider_EnvoyExternalAuthorizationHttpProvider struct 
 	//
 	// Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
 	// https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
+	//
 	// - Exact match: "abc" will match on value "abc".
 	// - Prefix match: "abc*" will match on value "abc" and "abcd".
 	// - Suffix match: "*abc" will match on value "abc" and "xabc".
@@ -1689,15 +1699,19 @@ type MeshConfig_ExtensionProvider_EnvoyExternalAuthorizationHttpProvider struct 
 	// check result is not allowed (HTTP code other than 200).
 	// If not specified, all the authorization response headers, except *Authority (Host)* will be in the response to
 	// the downstream.
+	//
 	// When a header is included in this list, *Path*, *Status*, *Content-Length*, *WWWAuthenticate* and *Location* are
 	// automatically added.
 	// Note, the body from the authorization service is always included in the response to downstream.
 	//
-	// Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-	// https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
+	// Exact, prefix, and suffix matches are supported (similar to the [authorization policy rule](https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)
+	// syntax except the presence match):
+	//
 	// - Exact match: "abc" will match on value "abc".
 	// - Prefix match: "abc*" will match on value "abc" and "abcd".
 	// - Suffix match: "*abc" will match on value "abc" and "xabc".
+	//
+	// Note: header rules matching is case-sensitive.
 	HeadersToDownstreamOnDeny []string `protobuf:"bytes,8,rep,name=headers_to_downstream_on_deny,json=headersToDownstreamOnDeny,proto3" json:"headersToDownstreamOnDeny,omitempty"`
 	XXX_NoUnkeyedLiteral      struct{} `json:"-"`
 	XXX_unrecognized          []byte   `json:"-"`
@@ -2654,7 +2668,7 @@ func (m *MeshConfig_ProxyPathNormalization) GetNormalization() MeshConfig_ProxyP
 type ConfigSource struct {
 	// Address of the server implementing the Istio Mesh Configuration
 	// protocol (MCP). Can be IP address or a fully qualified DNS name.
-	// Use fs:/// to specify a file-based backend with absolute path to the directory.
+	// Use `fs:///` to specify a file-based backend with absolute path to the directory.
 	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
 	// Use the tls_settings to specify the tls mode to use. If the MCP server
 	// uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
@@ -2723,6 +2737,7 @@ func (m *ConfigSource) GetSubscribedResources() []Resource {
 
 // Certificate configures the provision of a certificate and its key.
 // Example 1: key and cert stored in a secret
+//
 // ```
 // { secretName: galley-cert
 //   secretNamespace: istio-system
@@ -2732,6 +2747,7 @@ func (m *ConfigSource) GetSubscribedResources() []Resource {
 // }
 // ```
 // Example 2: key and cert stored in a directory
+//
 // ```
 // { dnsNames:
 //     - pilot.istio-system

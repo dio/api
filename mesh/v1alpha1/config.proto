@@ -204,10 +204,12 @@ message MeshConfig {
 
   // The trust domain aliases represent the aliases of `trust_domain`.
   // For example, if we have
+  //
   // ```yaml
   // trustDomain: td1
   // trustDomainAliases: ["td2", "td3"]
   // ```
+  //
   // Any service with the identity `td1/ns/foo/sa/a-service-account`, `td2/ns/foo/sa/a-service-account`,
   // or `td3/ns/foo/sa/a-service-account` will be treated the same in the Istio mesh.
   repeated string trust_domain_aliases = 46;
@@ -235,11 +237,13 @@ message MeshConfig {
   // imported through container registry integrations, e.g. this applies to
   // Kubernetes Service resources. The value is a list of namespace names and
   // reserved namespace aliases. The allowed namespace aliases are:
+  //
   // ```
   // * - All Namespaces
   // . - Current Namespace
   // ~ - No Namespace
   // ```
+  //
   // If not set the system will use "*" as the default value which implies that
   // services are exported to all namespaces.
   //
@@ -398,7 +402,7 @@ message MeshConfig {
     // The services to which the Settings should be applied. Services are selected using the hostname
     // matching rules used by DestinationRule.
     //
-    // For example: foo.bar.svc.cluster.local, *.baz.svc.cluster.local
+    // For example: "foo.bar.svc.cluster.local", "*.baz.svc.cluster.local".
     repeated string hosts = 2;
   }
 
@@ -447,11 +451,12 @@ message MeshConfig {
     string address = 1;
     // Use the tls_settings to specify the tls mode to use.
     // Regarding tls_settings:
+    //
     // - DISABLE MODE is legitimate for the case Istiod is making the request via an Envoy sidecar.
-    // DISABLE MODE can also be used for testing
+    //   DISABLE MODE can also be used for testing
     // - TLS MUTUAL MODE be on by default. If the CA certificates
-    // (cert bundle to verify the CA server's certificate) is omitted, Istiod will
-    // use the system root certs to verify the CA server's certificate.
+    //   (cert bundle to verify the CA server's certificate) is omitted, Istiod will
+    //   use the system root certs to verify the CA server's certificate.
     istio.networking.v1alpha3.ClientTLSSettings tls_settings = 2;
     // timeout for forward CSR requests from Istiod to External CA
     // Default: 10s
@@ -556,12 +561,14 @@ message MeshConfig {
       //    request can include the buffered client request body (controlled by include_request_body_in_check setting),
       //    consequently the value of Content-Length of the authorization request reflects the size of its payload size.
       //
-      // Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-      // https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
+      // Exact, prefix, and suffix matches are supported (similar to the [authorization policy rule](https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)
+      // syntax except the presence match):
       //
       // - Exact match: "abc" will match on value "abc".
       // - Prefix match: "abc*" will match on value "abc" and "abcd".
       // - Suffix match: "*abc" will match on value "abc" and "xabc".
+      //
+      // Note: header rules matching is case-sensitive.
       repeated string include_request_headers_in_check = 10;
 
       // Set of additional fixed headers that should be included in the authorization request sent to the authorization service.
@@ -579,6 +586,7 @@ message MeshConfig {
       //
       // Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
       // https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
+      //
       // - Exact match: "abc" will match on value "abc".
       // - Prefix match: "abc*" will match on value "abc" and "abcd".
       // - Suffix match: "*abc" will match on value "abc" and "xabc".
@@ -588,15 +596,19 @@ message MeshConfig {
       // check result is not allowed (HTTP code other than 200).
       // If not specified, all the authorization response headers, except *Authority (Host)* will be in the response to
       // the downstream.
+      //
       // When a header is included in this list, *Path*, *Status*, *Content-Length*, *WWWAuthenticate* and *Location* are
       // automatically added.
       // Note, the body from the authorization service is always included in the response to downstream.
       //
-      // Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-      // https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
+      // Exact, prefix, and suffix matches are supported (similar to the [authorization policy rule](https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)
+      // syntax except the presence match):
+      //
       // - Exact match: "abc" will match on value "abc".
       // - Prefix match: "abc*" will match on value "abc" and "abcd".
       // - Suffix match: "*abc" will match on value "abc" and "xabc".
+      //
+      // Note: header rules matching is case-sensitive.
       repeated string headers_to_downstream_on_deny = 8;
 
       // $hide_from_docs
@@ -818,6 +830,7 @@ message MeshConfig {
   // The following example selects any namespace that matches either below:
   // 1. The namespace has both of these labels: `env: prod` and `region: us-east1`
   // 2. The namespace has label `app` equal to `cassandra` or `spark`.
+  //
   // ```yaml
   // discoverySelectors:
   //   - matchLabels:
@@ -830,6 +843,7 @@ message MeshConfig {
   //         - cassandra
   //         - spark
   // ```
+  //
   // Refer to the [kubernetes selector docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors)
   // for additional detail on selector semantics.
   repeated k8s.io.apimachinery.pkg.apis.meta.v1.LabelSelector discovery_selectors = 59;
@@ -935,7 +949,7 @@ message MeshConfig {
 message ConfigSource {
  // Address of the server implementing the Istio Mesh Configuration
  // protocol (MCP). Can be IP address or a fully qualified DNS name.
- // Use fs:/// to specify a file-based backend with absolute path to the directory.
+ // Use `fs:///` to specify a file-based backend with absolute path to the directory.
  string address = 1;
  // Use the tls_settings to specify the tls mode to use. If the MCP server
  // uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
@@ -949,6 +963,7 @@ message ConfigSource {
 
 // Certificate configures the provision of a certificate and its key.
 // Example 1: key and cert stored in a secret
+//
 // ```
 // { secretName: galley-cert
 //   secretNamespace: istio-system
@@ -958,6 +973,7 @@ message ConfigSource {
 // }
 // ```
 // Example 2: key and cert stored in a directory
+//
 // ```
 // { dnsNames:
 //     - pilot.istio-system

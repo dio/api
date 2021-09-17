@@ -16,7 +16,7 @@
         ]
       },
       "istio.mesh.v1alpha1.Certificate": {
-        "description": "Certificate configures the provision of a certificate and its key. Example 1: key and cert stored in a secret ``` { secretName: galley-cert secretNamespace: istio-system dnsNames: - galley.istio-system.svc - galley.mydomain.com } ``` Example 2: key and cert stored in a directory ``` { dnsNames: - pilot.istio-system - pilot.istio-system.svc - pilot.mydomain.com } ```",
+        "description": "Certificate configures the provision of a certificate and its key. Example 1: key and cert stored in a secret",
         "type": "object",
         "properties": {
           "secretName": {
@@ -37,7 +37,7 @@
         "type": "object",
         "properties": {
           "address": {
-            "description": "Address of the server implementing the Istio Mesh Configuration protocol (MCP). Can be IP address or a fully qualified DNS name. Use fs:/// to specify a file-based backend with absolute path to the directory.",
+            "description": "Address of the server implementing the Istio Mesh Configuration protocol (MCP). Can be IP address or a fully qualified DNS name. Use `fs:///` to specify a file-based backend with absolute path to the directory.",
             "type": "string"
           },
           "tlsSettings": {
@@ -138,7 +138,7 @@
             "type": "string"
           },
           "trustDomainAliases": {
-            "description": "The trust domain aliases represent the aliases of `trust_domain`. For example, if we have ```yaml trustDomain: td1 trustDomainAliases: [\"td2\", \"td3\"] ``` Any service with the identity `td1/ns/foo/sa/a-service-account`, `td2/ns/foo/sa/a-service-account`, or `td3/ns/foo/sa/a-service-account` will be treated the same in the Istio mesh.",
+            "description": "The trust domain aliases represent the aliases of `trust_domain`. For example, if we have",
             "type": "array",
             "items": {
               "type": "string"
@@ -152,7 +152,7 @@
             }
           },
           "defaultServiceExportTo": {
-            "description": "The default value for the ServiceEntry.export_to field and services imported through container registry integrations, e.g. this applies to Kubernetes Service resources. The value is a list of namespace names and reserved namespace aliases. The allowed namespace aliases are: ``` * - All Namespaces . - Current Namespace ~ - No Namespace ``` If not set the system will use \"*\" as the default value which implies that services are exported to all namespaces.",
+            "description": "The default value for the ServiceEntry.export_to field and services imported through container registry integrations, e.g. this applies to Kubernetes Service resources. The value is a list of namespace names and reserved namespace aliases. The allowed namespace aliases are: ``` * - All Namespaces . - Current Namespace ~ - No Namespace ```",
             "type": "array",
             "items": {
               "type": "string"
@@ -236,7 +236,7 @@
             "$ref": "#/components/schemas/istio.mesh.v1alpha1.MeshConfig.DefaultProviders"
           },
           "discoverySelectors": {
-            "description": "A list of Kubernetes selectors that specify the set of namespaces that Istio considers when computing configuration updates for sidecars. This can be used to reduce Istio's computational load by limiting the number of entities (including services, pods, and endpoints) that are watched and processed. If omitted, Istio will use the default behavior of processing all namespaces in the cluster. Elements in the list are disjunctive (OR semantics), i.e. a namespace will be included if it matches any selector. The following example selects any namespace that matches either below: 1. The namespace has both of these labels: `env: prod` and `region: us-east1` 2. The namespace has label `app` equal to `cassandra` or `spark`. ```yaml discoverySelectors: - matchLabels: env: prod region: us-east1 - matchExpressions: - key: app operator: In values: - cassandra - spark ``` Refer to the [kubernetes selector docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors) for additional detail on selector semantics.",
+            "description": "A list of Kubernetes selectors that specify the set of namespaces that Istio considers when computing configuration updates for sidecars. This can be used to reduce Istio's computational load by limiting the number of entities (including services, pods, and endpoints) that are watched and processed. If omitted, Istio will use the default behavior of processing all namespaces in the cluster. Elements in the list are disjunctive (OR semantics), i.e. a namespace will be included if it matches any selector. The following example selects any namespace that matches either below: 1. The namespace has both of these labels: `env: prod` and `region: us-east1` 2. The namespace has label `app` equal to `cassandra` or `spark`.",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/k8s.io.apimachinery.pkg.apis.meta.v1.LabelSelector"
@@ -688,7 +688,7 @@
             }
           },
           "headersToDownstreamOnDeny": {
-            "description": "List of headers from the authorization service that should be forwarded to downstream when the authorization check result is not allowed (HTTP code other than 200). If not specified, all the authorization response headers, except *Authority (Host)* will be in the response to the downstream. When a header is included in this list, *Path*, *Status*, *Content-Length*, *WWWAuthenticate* and *Location* are automatically added. Note, the body from the authorization service is always included in the response to downstream.",
+            "description": "List of headers from the authorization service that should be forwarded to downstream when the authorization check result is not allowed (HTTP code other than 200). If not specified, all the authorization response headers, except *Authority (Host)* will be in the response to the downstream.",
             "type": "array",
             "items": {
               "type": "string"
