@@ -304,9 +304,9 @@ type MeshConfig struct {
 	// Port on which Envoy should listen for incoming connections from
 	// other services. Default port is 15001.
 	ProxyListenPort int32 `protobuf:"varint,4,opt,name=proxy_listen_port,json=proxyListenPort,proto3" json:"proxyListenPort,omitempty"`
-	// Port on which Envoy should listen for HTTP PROXY requests if set.
+	// Port on which Envoy should listen for `HTTP PROXY` requests if set.
 	ProxyHttpPort int32 `protobuf:"varint,5,opt,name=proxy_http_port,json=proxyHttpPort,proto3" json:"proxyHttpPort,omitempty"`
-	// Connection timeout used by Envoy. (MUST BE >=1ms)
+	// Connection timeout used by Envoy. (MUST BE >=1ms).
 	// Default timeout is 10s.
 	ConnectTimeout *types.Duration `protobuf:"bytes,6,opt,name=connect_timeout,json=connectTimeout,proto3" json:"connectTimeout,omitempty"`
 	// Automatic protocol detection uses a set of heuristics to
@@ -345,7 +345,7 @@ type MeshConfig struct {
 	// Empty value disables access logging.
 	AccessLogFile string `protobuf:"bytes,13,opt,name=access_log_file,json=accessLogFile,proto3" json:"accessLogFile,omitempty"`
 	// Format for the proxy access log
-	// Empty value results in proxy's default access log format
+	// Empty value results in proxy's default access log format.
 	AccessLogFormat string `protobuf:"bytes,24,opt,name=access_log_format,json=accessLogFormat,proto3" json:"accessLogFormat,omitempty"`
 	// Encoding for the proxy access log (`TEXT` or `JSON`).
 	// Default value is `TEXT`.
@@ -396,7 +396,7 @@ type MeshConfig struct {
 	// If service `DestinationRule` exists and has `ClientTLSSettings` specified, that is always used instead.
 	EnableAutoMtls *types.BoolValue `protobuf:"bytes,43,opt,name=enable_auto_mtls,json=enableAutoMtls,proto3" json:"enableAutoMtls,omitempty"`
 	// The trust domain corresponds to the trust root of a system.
-	// Refer to [SPIFFE-ID](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md#21-trust-domain)
+	// Refer to [SPIFFE-ID](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md#21-trust-domain).
 	TrustDomain string `protobuf:"bytes,26,opt,name=trust_domain,json=trustDomain,proto3" json:"trustDomain,omitempty"`
 	// The trust domain aliases represent the aliases of `trust_domain`.
 	// For example, if we have
@@ -477,7 +477,7 @@ type MeshConfig struct {
 	// By default, Istio emits statistics with the pattern `inbound|<port>|<port-name>|<service-FQDN>`.
 	// For example `inbound|7443|grpc-reviews|reviews.prod.svc.cluster.local`. This can be used to override that pattern.
 	//
-	// A Pattern can be composed of various pre-defined variables. The following variables are supported.
+	// A Pattern can be composed of various pre-defined variables. The following variables are supported:
 	//
 	// - `%SERVICE%` - Will be substituted with name of the service.
 	// - `%SERVICE_FQDN%` - Will be substituted with FQDN of the service.

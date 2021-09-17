@@ -38,10 +38,10 @@ message MeshConfig {
   // other services. Default port is 15001.
   int32 proxy_listen_port = 4;
 
-  // Port on which Envoy should listen for HTTP PROXY requests if set.
+  // Port on which Envoy should listen for `HTTP PROXY` requests if set.
   int32 proxy_http_port = 5;
 
-  // Connection timeout used by Envoy. (MUST BE >=1ms)
+  // Connection timeout used by Envoy. (MUST BE >=1ms).
   // Default timeout is 10s.
   google.protobuf.Duration connect_timeout = 6;
 
@@ -117,7 +117,7 @@ message MeshConfig {
   string access_log_file = 13;
 
   // Format for the proxy access log
-  // Empty value results in proxy's default access log format
+  // Empty value results in proxy's default access log format.
   string access_log_format = 24;
 
   enum AccessLogEncoding {
@@ -199,7 +199,7 @@ message MeshConfig {
   google.protobuf.BoolValue enable_auto_mtls = 43;
 
   // The trust domain corresponds to the trust root of a system.
-  // Refer to [SPIFFE-ID](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md#21-trust-domain)
+  // Refer to [SPIFFE-ID](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md#21-trust-domain).
   string trust_domain = 26;
 
   // The trust domain aliases represent the aliases of `trust_domain`.
@@ -311,7 +311,7 @@ message MeshConfig {
   // By default, Istio emits statistics with the pattern `inbound|<port>|<port-name>|<service-FQDN>`.
   // For example `inbound|7443|grpc-reviews|reviews.prod.svc.cluster.local`. This can be used to override that pattern.
   //
-  // A Pattern can be composed of various pre-defined variables. The following variables are supported.
+  // A Pattern can be composed of various pre-defined variables. The following variables are supported:
   //
   // - `%SERVICE%` - Will be substituted with name of the service.
   // - `%SERVICE_FQDN%` - Will be substituted with FQDN of the service.
@@ -356,7 +356,7 @@ message MeshConfig {
     google.protobuf.Duration rate_limit_timeout = 2;
   }
 
-  // Set configuration for Thrift protocol
+  // Set configuration for Thrift protocol.
   ThriftConfig thrift_config = 49;
 
   // $hide_from_docs
