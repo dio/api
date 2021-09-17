@@ -1344,17 +1344,23 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>List of client request headers that should be included in the authorization request sent to the authorization service.
-Note that in addition to the headers specified here following headers are included by default:
-1. <em>Host</em>, <em>Method</em>, <em>Path</em> and <em>Content-Length</em> are automatically sent.
-2. <em>Content-Length</em> will be set to 0 and the request will not have a message body. However, the authorization
+Note that in addition to the headers specified here following headers are included by default:</p>
+
+<ol>
+<li><em>Host</em>, <em>Method</em>, <em>Path</em> and <em>Content-Length</em> are automatically sent.</li>
+<li><em>Content-Length</em> will be set to 0 and the request will not have a message body. However, the authorization
 request can include the buffered client request body (controlled by include<em>request</em>body<em>in</em>check setting),
-consequently the value of Content-Length of the authorization request reflects the size of its payload size.</p>
+consequently the value of Content-Length of the authorization request reflects the size of its payload size.</li>
+</ol>
 
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
-- Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):</p>
+
+<ul>
+<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
+<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
+<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
+</ul>
 
 </td>
 <td>

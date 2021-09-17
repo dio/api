@@ -1655,13 +1655,15 @@ type MeshConfig_ExtensionProvider_EnvoyExternalAuthorizationHttpProvider struct 
 	IncludeHeadersInCheck []string `protobuf:"bytes,6,rep,name=include_headers_in_check,json=includeHeadersInCheck,proto3" json:"includeHeadersInCheck,omitempty"`
 	// List of client request headers that should be included in the authorization request sent to the authorization service.
 	// Note that in addition to the headers specified here following headers are included by default:
+	//
 	// 1. *Host*, *Method*, *Path* and *Content-Length* are automatically sent.
 	// 2. *Content-Length* will be set to 0 and the request will not have a message body. However, the authorization
-	// request can include the buffered client request body (controlled by include_request_body_in_check setting),
-	// consequently the value of Content-Length of the authorization request reflects the size of its payload size.
+	//    request can include the buffered client request body (controlled by include_request_body_in_check setting),
+	//    consequently the value of Content-Length of the authorization request reflects the size of its payload size.
 	//
 	// Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
 	// https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
+	//
 	// - Exact match: "abc" will match on value "abc".
 	// - Prefix match: "abc*" will match on value "abc" and "abcd".
 	// - Suffix match: "*abc" will match on value "abc" and "xabc".
