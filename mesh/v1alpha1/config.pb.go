@@ -509,7 +509,7 @@ type MeshConfig struct {
 	OutboundClusterStatName string `protobuf:"bytes,45,opt,name=outbound_cluster_stat_name,json=outboundClusterStatName,proto3" json:"outboundClusterStatName,omitempty"`
 	// Configure the provision of certificates.
 	Certificates []*Certificate `protobuf:"bytes,47,rep,name=certificates,proto3" json:"certificates,omitempty"`
-	// Set configuration for Thrift protocol
+	// Set configuration for Thrift protocol.
 	ThriftConfig *MeshConfig_ThriftConfig `protobuf:"bytes,49,opt,name=thrift_config,json=thriftConfig,proto3" json:"thriftConfig,omitempty"`
 	// $hide_from_docs
 	// Settings to be applied to select services.
@@ -1561,7 +1561,7 @@ type MeshConfig_ExtensionProvider_EnvoyExternalAuthorizationRequestBody struct {
 	// Note that this setting will have precedence over the fail_open field, the 413 will be returned even when the
 	// fail_open is set to true.
 	MaxRequestBytes uint32 `protobuf:"varint,1,opt,name=max_request_bytes,json=maxRequestBytes,proto3" json:"maxRequestBytes,omitempty"`
-	// When this field is true, ext-authz filter will buffer the message until `maxRequestBytes` is reached.
+	// When this field is true, ext-authz filter will buffer the message until [`maxRequestBytes`][istio.mesh.v1alpha1.MeshConfig.ExtensionProvider.EnvoyExternalAuthorizationRequestBody.max_request_bytes] is reached.
 	// The authorization request will be dispatched and no 413 HTTP error will be returned by the filter.
 	// An "x-envoy-auth-partial-body: false|true" metadata header will be added to the authorization request message
 	// indicating if the body data is partial.

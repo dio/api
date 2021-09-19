@@ -529,7 +529,7 @@ No
 <td><code>thriftConfig</code></td>
 <td><code><a href="#MeshConfig-ThriftConfig">ThriftConfig</a></code></td>
 <td>
-<p>Set configuration for Thrift protocol</p>
+<p>Set configuration for Thrift protocol.</p>
 
 </td>
 <td>
@@ -1217,7 +1217,7 @@ No
 <td><code>allowPartialMessage</code></td>
 <td><code>bool</code></td>
 <td>
-<p>When this field is true, ext-authz filter will buffer the message until <code>maxRequestBytes</code> is reached.
+<p>When this field is true, ext-authz filter will buffer the message until <a href="#MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationRequestBody-max_request_bytes"><code>maxRequestBytes</code></a> is reached.
 The authorization request will be dispatched and no 413 HTTP error will be returned by the filter.
 An &ldquo;x-envoy-auth-partial-body: false|true&rdquo; metadata header will be added to the authorization request message
 indicating if the body data is partial.</p>
